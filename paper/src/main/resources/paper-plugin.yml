@@ -1,0 +1,6 @@
+name: TeamChat
+author: BauHD
+main: dev.bauhd.teamchat.paper.PaperTeamChat
+version: '2.0'
+api-version: '1.20'
+website: https://hangar.papermc.io/BauHD/TeamChat

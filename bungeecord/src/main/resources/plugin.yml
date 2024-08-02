@@ -1,0 +1,3 @@
+name: TeamChat
+main: dev.bauhd.teamchat.bungee.BungeeTeamChat
+version: '2.0'
