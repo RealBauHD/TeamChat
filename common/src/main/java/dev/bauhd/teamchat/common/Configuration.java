@@ -1,9 +1,15 @@
 package dev.bauhd.teamchat.common;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public final class Configuration {
+
+  private static final String FILE_NAME = "config.yml";
 
   private final Component prefix;
   private final String permission;
@@ -43,5 +49,24 @@ public final class Configuration {
 
   public Component usage() {
     return this.usage;
+  }
+
+  public static Path ensurePathIsValid(final Path dataDirectory) {
+    try {
+      if (Files.notExists(dataDirectory)) {
+        Files.createDirectory(dataDirectory);
+      }
+      final Path configPath = dataDirectory.resolve(FILE_NAME);
+      if (Files.notExists(configPath)) {
+        final InputStream inputStream = Configuration.class.getClassLoader()
+            .getResourceAsStream(FILE_NAME);
+        assert inputStream != null;
+
+        Files.copy(inputStream, configPath);
+      }
+      return configPath;
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

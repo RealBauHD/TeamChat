@@ -25,7 +25,8 @@ public final class BukkitTeamChat extends JavaPlugin implements TeamChatCommon {
   @Override
   public Configuration configuration() {
     return new Configuration("<dark_gray>[<blue>TeamChat</blue>] ", "teamchat.use",
-        "<yellow><sender></yellow> <dark_gray>»</dark_gray> <gray><message></gray>", "<red>No permission!", "<red>Usage: /teamchat <Message>");
+        "<yellow><sender></yellow> <dark_gray>»</dark_gray> <gray><message></gray>",
+        "<red>No permission!", "<red>Usage: /teamchat <Message>");
   }
 
   @Override
@@ -41,7 +42,8 @@ public final class BukkitTeamChat extends JavaPlugin implements TeamChatCommon {
         }
 
         final Component message = this.configuration().prefix().append(this
-            .constructMessage(null, sender.getName(), messageBuilder.toString()));
+            .constructMessage(this.audiences.sender(sender), sender.getName(),
+                messageBuilder.toString()));
         for (final Player player : this.getServer().getOnlinePlayers()) {
           if (player.hasPermission(this.configuration().permission())) {
             this.audiences.player(player).sendMessage(message);

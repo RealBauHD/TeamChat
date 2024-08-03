@@ -1,0 +1,5 @@
+prefix: "<dark_gray>[<blue>TeamChat</blue>] "
+permission: "teamchat.use"
+format: "<yellow><sender></yellow> <dark_gray>»</dark_gray> <gray><message></gray>"
+no-permission: "<red>No permission!"
+usage: "<red>Usage: /teamchat <Message>"

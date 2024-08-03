@@ -1,6 +1,7 @@
 package dev.bauhd.teamchat.paper;
 
 import java.util.List;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,10 +29,12 @@ public final class TeamChatCommand extends Command {
           messageBuilder.append(argument).append(" ");
         }
 
+        final Component message = this.teamChat.configuration().prefix().append(this.teamChat
+            .constructMessage(sender, sender.getName(), messageBuilder.toString()));
+
         for (final Player player : this.teamChat.getServer().getOnlinePlayers()) {
           if (player.hasPermission(this.teamChat.configuration().permission())) {
-            player.sendMessage(this.teamChat.configuration().prefix().append(this.teamChat
-                .constructMessage(player, sender.getName(), messageBuilder.toString())));
+            player.sendMessage(message);
           }
         }
       }
