@@ -6,6 +6,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.velocitypowered.api.command.BrigadierCommand;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
+import com.velocitypowered.api.plugin.Dependency;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
@@ -25,7 +26,11 @@ import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
     name = "TeamChat",
     authors = "BauHD",
     version = "1.0",
-    url = "https://hangar.papermc.io/BauHD/TeamChat")
+    url = "https://modrinth.com/project/teamchat",
+    dependencies = {
+        @Dependency(id = "miniplaceholders", optional = true)
+    }
+)
 public final class VelocityTeamChat implements TeamChatCommon {
 
   private final ProxyServer proxyServer;
@@ -58,7 +63,7 @@ public final class VelocityTeamChat implements TeamChatCommon {
     }
 
     this.proxyServer.getCommandManager()
-        .register(new BrigadierCommand(BrigadierCommand.literalArgumentBuilder("teamchat")
+        .register("tc", new BrigadierCommand(BrigadierCommand.literalArgumentBuilder("teamchat")
             .requires(source -> source.hasPermission(this.configuration().permission()))
             .executes(context -> {
               context.getSource().sendMessage(this.configuration().usage());

@@ -3,7 +3,7 @@ author: BauHD
 main: dev.bauhd.teamchat.bukkit.BukkitTeamChat
 version: '2.0'
 api-version: '1.13'
-website: https://hangar.papermc.io/BauHD/TeamChat
+website: https://modrinth.com/project/teamchat
 commands:
   teamchat:
     description: "The TeamChat command."

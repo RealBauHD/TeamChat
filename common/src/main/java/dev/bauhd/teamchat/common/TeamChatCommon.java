@@ -15,7 +15,7 @@ public interface TeamChatCommon {
   ) {
     final TagResolver.Builder tagResolverBuilder = TagResolver.builder()
         .resolver(Placeholder.unparsed("sender", sender))
-        .resolvers(Placeholder.unparsed("message", message));
+        .resolver(Placeholder.unparsed("message", message));
     this.addAdditionalResolver(audience, tagResolverBuilder);
     return MiniMessage.miniMessage().deserialize(
         this.configuration().format(), tagResolverBuilder.build());

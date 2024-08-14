@@ -4,7 +4,7 @@ main: dev.bauhd.teamchat.paper.PaperTeamChat
 version: '2.0'
 api-version: '1.13'
 softdepend: ["MiniPlaceholders"]
-website: https://hangar.papermc.io/BauHD/TeamChat
+website: https://modrinth.com/project/teamchat
 commands:
   teamchat:
     description: "The TeamChat command."
