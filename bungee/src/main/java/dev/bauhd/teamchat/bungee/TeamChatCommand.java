@@ -12,7 +12,7 @@ public final class TeamChatCommand extends Command {
   private final BungeeAudiences audiences;
 
   public TeamChatCommand(final BungeeTeamChat teamChat, final BungeeAudiences audiences) {
-    super("teamchat", null, "tc");
+    super("teamchat", teamChat.configuration().permission(), "tc");
     this.teamChat = teamChat;
     this.audiences = audiences;
   }
@@ -35,6 +35,9 @@ public final class TeamChatCommand extends Command {
           if (player.hasPermission(this.teamChat.configuration().permission())) {
             this.audiences.player(player).sendMessage(message);
           }
+        }
+        if (this.teamChat.configuration().announceInConsole()) {
+          this.audiences.sender(this.teamChat.getProxy().getConsole()).sendMessage(message);
         }
       }
     } else {

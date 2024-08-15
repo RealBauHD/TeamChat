@@ -15,15 +15,16 @@ public final class BungeeTeamChat extends Plugin implements TeamChatCommon {
   @Override
   public void onEnable() {
     try {
-      final net.md_5.bungee.config.Configuration bungeeConfig = ConfigurationProvider
+      final net.md_5.bungee.config.Configuration config = ConfigurationProvider
           .getProvider(YamlConfiguration.class).load(
           Configuration.ensurePathIsValid(this.getDataFolder().toPath()).toFile());
       this.configuration = new Configuration(
-          bungeeConfig.getString("prefix"),
-          bungeeConfig.getString("permission"),
-          bungeeConfig.getString("format"),
-          bungeeConfig.getString("no-permission"),
-          bungeeConfig.getString("usage")
+          config.getString("prefix"),
+          config.getString("permission"),
+          config.getBoolean("announce-in-console"),
+          config.getString("format"),
+          config.getString("no-permission"),
+          config.getString("usage")
       );
     } catch (IOException e) {
       throw new RuntimeException(e);

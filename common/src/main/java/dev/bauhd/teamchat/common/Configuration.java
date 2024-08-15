@@ -13,6 +13,7 @@ public final class Configuration {
 
   private final Component prefix;
   private final String permission;
+  private final boolean announceInConsole;
   private final String format;
   private final Component noPermission;
   private final Component usage;
@@ -20,12 +21,14 @@ public final class Configuration {
   public Configuration(
       final String prefix,
       final String permission,
+      final boolean announceInConsole,
       final String format,
       final String noPermission,
       final String usage
   ) {
     this.prefix = MiniMessage.miniMessage().deserialize(prefix);
     this.permission = permission;
+    this.announceInConsole = announceInConsole;
     this.format = format;
     this.noPermission = this.prefix.append(MiniMessage.miniMessage().deserialize(noPermission));
     this.usage = this.prefix.append(MiniMessage.miniMessage().deserialize(usage));
@@ -37,6 +40,10 @@ public final class Configuration {
 
   public String permission() {
     return this.permission;
+  }
+
+  public boolean announceInConsole() {
+    return this.announceInConsole;
   }
 
   public String format() {

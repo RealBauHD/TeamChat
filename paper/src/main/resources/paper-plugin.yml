@@ -4,6 +4,7 @@ main: dev.bauhd.teamchat.paper.PaperTeamChat
 version: '2.0'
 api-version: '1.19'
 website: https://modrinth.com/project/teamchat
+folia-supported: true
 
 dependencies:
   server:

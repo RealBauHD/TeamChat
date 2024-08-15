@@ -26,6 +26,7 @@ public final class BukkitTeamChat extends JavaPlugin implements TeamChatCommon {
     this.configuration = new Configuration(
         config.getString("prefix"),
         config.getString("permission"),
+        config.getBoolean("announce-in-console"),
         config.getString("format"),
         config.getString("no-permission"),
         config.getString("usage")
@@ -58,6 +59,9 @@ public final class BukkitTeamChat extends JavaPlugin implements TeamChatCommon {
           if (player.hasPermission(this.configuration().permission())) {
             this.audiences.player(player).sendMessage(message);
           }
+        }
+        if (this.configuration.announceInConsole()) {
+          this.audiences.sender(sender).sendMessage(message);
         }
       }
     } else {

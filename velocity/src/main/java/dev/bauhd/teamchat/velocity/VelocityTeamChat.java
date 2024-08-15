@@ -17,6 +17,7 @@ import io.github.miniplaceholders.api.MiniPlaceholders;
 import java.io.IOException;
 import java.nio.file.Path;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
@@ -54,6 +55,7 @@ public final class VelocityTeamChat implements TeamChatCommon {
       this.configuration = new Configuration(
           node.node("prefix").getString(),
           node.node("permission").getString(),
+          node.node("announce-in-console").getBoolean(),
           node.node("format").getString(),
           node.node("no-permission").getString(),
           node.node("usage").getString()
@@ -74,12 +76,16 @@ public final class VelocityTeamChat implements TeamChatCommon {
                 .executes(context -> {
                   final String name = (context.getSource() instanceof Player player
                       ? player.getUsername() : "CONSOLE");
-                  final String message = context.getArgument("message", String.class);
+                  final String rawMessage = context.getArgument("message", String.class);
+                  final Component message = this.configuration().prefix().append(this
+                      .constructMessage(context.getSource(), name, rawMessage));
                   for (final Player player : this.proxyServer.getAllPlayers()) {
                     if (player.hasPermission(this.configuration().permission())) {
-                      player.sendMessage(this.configuration().prefix().append(this
-                          .constructMessage(player, name, message)));
+                      player.sendMessage(message);
                     }
+                  }
+                  if (this.configuration.announceInConsole()) {
+                    this.proxyServer.getConsoleCommandSource().sendMessage(message);
                   }
                   return Command.SINGLE_SUCCESS;
                 }))

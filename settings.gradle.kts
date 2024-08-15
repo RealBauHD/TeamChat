@@ -2,7 +2,7 @@ rootProject.name = "TeamChat"
 
 sequenceOf(
     "common",
-    "bungeecord",
+    "bungee",
     "velocity",
     "bukkit",
     "paper"
