@@ -1,5 +1,4 @@
 plugins {
-    id("java")
     alias(libs.plugins.shadow)
 }
 
@@ -14,6 +13,7 @@ dependencies {
     implementation(libs.adventure.platform.bukkit)
     implementation(libs.minimessage)
 
+    compileOnly(libs.placeholderapi)
     compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
 }
 

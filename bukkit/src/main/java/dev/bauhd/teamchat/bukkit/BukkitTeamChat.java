@@ -3,8 +3,13 @@ package dev.bauhd.teamchat.bukkit;
 import dev.bauhd.teamchat.common.Configuration;
 import dev.bauhd.teamchat.common.TeamChatCommon;
 import java.util.Objects;
+import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.tag.Tag;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -12,10 +17,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public final class BukkitTeamChat extends JavaPlugin implements TeamChatCommon {
+public final class BukkitTeamChat extends JavaPlugin implements TeamChatCommon<CommandSender> {
 
   private BukkitAudiences audiences;
   private Configuration configuration;
+  private boolean placeholderApi;
 
   @Override
   public void onEnable() {
@@ -33,6 +39,8 @@ public final class BukkitTeamChat extends JavaPlugin implements TeamChatCommon {
     );
 
     Objects.requireNonNull(this.getCommand("teamchat")).setExecutor(this);
+
+    this.placeholderApi = this.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
   }
 
   @Override
@@ -41,22 +49,36 @@ public final class BukkitTeamChat extends JavaPlugin implements TeamChatCommon {
   }
 
   @Override
+  public void addAdditionalResolver(
+      CommandSender sender, Audience audience, TagResolver.Builder builder
+  ) {
+    if (this.placeholderApi && sender instanceof Player player) {
+      builder.resolver(TagResolver.resolver("papi", (argument, context) -> {
+        final String parsedPlaceholder = PlaceholderAPI.setPlaceholders(player,
+            '%' + argument.popOr("papi tag requires an argument").value() + '%');
+        return Tag.selfClosingInserting(
+            LegacyComponentSerializer.legacySection().deserialize(parsedPlaceholder));
+      }));
+    }
+  }
+
+  @Override
   public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
-      @NotNull String s, @NotNull String[] arguments) {
-    if (sender.hasPermission(this.configuration().permission())) {
+      @NotNull String label, @NotNull String[] arguments) {
+    if (sender.hasPermission(this.configuration.permission())) {
       if (arguments.length == 0) {
-        this.audiences.sender(sender).sendMessage(this.configuration().usage());
+        this.audiences.sender(sender).sendMessage(this.configuration.usage());
       } else {
         final StringBuilder messageBuilder = new StringBuilder();
         for (final String argument : arguments) {
           messageBuilder.append(argument).append(" ");
         }
 
-        final Component message = this.configuration().prefix().append(this
-            .constructMessage(this.audiences.sender(sender), sender.getName(),
+        final Component message = this.configuration.prefix().append(this
+            .constructMessage(sender, this.audiences.sender(sender), sender.getName(),
                 messageBuilder.toString()));
         for (final Player player : this.getServer().getOnlinePlayers()) {
-          if (player.hasPermission(this.configuration().permission())) {
+          if (player.hasPermission(this.configuration.permission())) {
             this.audiences.player(player).sendMessage(message);
           }
         }
@@ -65,7 +87,7 @@ public final class BukkitTeamChat extends JavaPlugin implements TeamChatCommon {
         }
       }
     } else {
-      this.audiences.sender(sender).sendMessage(this.configuration().noPermission());
+      this.audiences.sender(sender).sendMessage(this.configuration.noPermission());
     }
     return true;
   }

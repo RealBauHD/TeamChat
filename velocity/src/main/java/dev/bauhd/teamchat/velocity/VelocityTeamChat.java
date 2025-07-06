@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.velocitypowered.api.command.BrigadierCommand;
+import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Dependency;
@@ -32,7 +33,7 @@ import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
         @Dependency(id = "miniplaceholders", optional = true)
     }
 )
-public final class VelocityTeamChat implements TeamChatCommon {
+public final class VelocityTeamChat implements TeamChatCommon<CommandSource> {
 
   private final ProxyServer proxyServer;
   private final Path dataDirectory;
@@ -64,8 +65,12 @@ public final class VelocityTeamChat implements TeamChatCommon {
       throw new RuntimeException(e);
     }
 
-    this.proxyServer.getCommandManager()
-        .register("tc", new BrigadierCommand(BrigadierCommand.literalArgumentBuilder("teamchat")
+    this.proxyServer.getCommandManager().register(this.proxyServer.getCommandManager()
+            .metaBuilder("teamchat")
+            .aliases("tc")
+            .plugin(this)
+            .build(),
+        new BrigadierCommand(BrigadierCommand.literalArgumentBuilder("teamchat")
             .requires(source -> source.hasPermission(this.configuration().permission()))
             .executes(context -> {
               context.getSource().sendMessage(this.configuration().usage());
@@ -78,7 +83,8 @@ public final class VelocityTeamChat implements TeamChatCommon {
                       ? player.getUsername() : "CONSOLE");
                   final String rawMessage = context.getArgument("message", String.class);
                   final Component message = this.configuration().prefix().append(this
-                      .constructMessage(context.getSource(), name, rawMessage));
+                      .constructMessage(context.getSource(), context.getSource(), name,
+                          rawMessage));
                   for (final Player player : this.proxyServer.getAllPlayers()) {
                     if (player.hasPermission(this.configuration().permission())) {
                       player.sendMessage(message);
@@ -98,7 +104,9 @@ public final class VelocityTeamChat implements TeamChatCommon {
   }
 
   @Override
-  public void addAdditionalResolver(Audience audience, TagResolver.Builder builder) {
+  public void addAdditionalResolver(
+      CommandSource sender, Audience audience, TagResolver.Builder builder
+  ) {
     if (this.miniPlaceholders) {
       builder.resolver(MiniPlaceholders.getAudiencePlaceholders(audience));
     }

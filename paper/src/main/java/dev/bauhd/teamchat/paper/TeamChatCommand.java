@@ -30,7 +30,7 @@ public final class TeamChatCommand extends Command {
         }
 
         final Component message = this.teamChat.configuration().prefix().append(this.teamChat
-            .constructMessage(sender, sender.getName(), messageBuilder.toString()));
+            .constructMessage(sender, sender, sender.getName(), messageBuilder.toString()));
         for (final Player player : this.teamChat.getServer().getOnlinePlayers()) {
           if (player.hasPermission(this.teamChat.configuration().permission())) {
             player.sendMessage(message);

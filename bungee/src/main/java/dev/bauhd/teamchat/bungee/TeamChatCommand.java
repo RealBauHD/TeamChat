@@ -29,7 +29,7 @@ public final class TeamChatCommand extends Command {
         }
 
         final Component message = this.teamChat.configuration().prefix().append(this.teamChat
-            .constructMessage(this.audiences.sender(sender), sender.getName(),
+            .constructMessage(sender, this.audiences.sender(sender), sender.getName(),
                 messageBuilder.toString()));
         for (final ProxiedPlayer player : this.teamChat.getProxy().getPlayers()) {
           if (player.hasPermission(this.teamChat.configuration().permission())) {

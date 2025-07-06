@@ -9,5 +9,8 @@ folia-supported: true
 dependencies:
   server:
     MiniPlaceholders:
-      load: AFTER
+      load: BEFORE
+      required: false
+    PlaceholderAPI:
+      load: BEFORE
       required: false

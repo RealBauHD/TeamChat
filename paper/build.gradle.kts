@@ -1,5 +1,4 @@
 plugins {
-    id("java")
     alias(libs.plugins.shadow)
 }
 
@@ -11,5 +10,6 @@ dependencies {
     implementation(project(":teamchat-common"))
 
     compileOnly(libs.miniplaceholders)
+    compileOnly(libs.placeholderapi)
     compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
 }

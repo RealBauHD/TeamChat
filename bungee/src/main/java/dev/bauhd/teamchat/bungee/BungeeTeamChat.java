@@ -4,11 +4,12 @@ import dev.bauhd.teamchat.common.Configuration;
 import dev.bauhd.teamchat.common.TeamChatCommon;
 import java.io.IOException;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
+import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
-public final class BungeeTeamChat extends Plugin implements TeamChatCommon {
+public final class BungeeTeamChat extends Plugin implements TeamChatCommon<CommandSender> {
 
   private Configuration configuration;
 

@@ -3,8 +3,8 @@ author: BauHD
 main: dev.bauhd.teamchat.paper.PaperTeamChat
 version: '2.0'
 api-version: '1.13'
-softdepend: ["MiniPlaceholders"]
 website: https://modrinth.com/project/teamchat
+softdepend: ["MiniPlaceholders", "PlaceholderAPI"]
 commands:
   teamchat:
     description: "The TeamChat command."
