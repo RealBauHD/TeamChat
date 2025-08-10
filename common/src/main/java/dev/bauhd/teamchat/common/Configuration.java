@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
@@ -13,6 +14,7 @@ public final class Configuration {
 
   private final Component prefix;
   private final String permission;
+  private final List<String> aliases;
   private final boolean announceInConsole;
   private final String format;
   private final Component noPermission;
@@ -21,6 +23,7 @@ public final class Configuration {
   public Configuration(
       final String prefix,
       final String permission,
+      final List<String> aliases,
       final boolean announceInConsole,
       final String format,
       final String noPermission,
@@ -28,6 +31,7 @@ public final class Configuration {
   ) {
     this.prefix = MiniMessage.miniMessage().deserialize(prefix);
     this.permission = permission;
+    this.aliases = aliases;
     this.announceInConsole = announceInConsole;
     this.format = format;
     this.noPermission = this.prefix.append(MiniMessage.miniMessage().deserialize(noPermission));
@@ -40,6 +44,10 @@ public final class Configuration {
 
   public String permission() {
     return this.permission;
+  }
+
+  public List<String> aliases() {
+    return this.aliases;
   }
 
   public boolean announceInConsole() {

@@ -56,6 +56,7 @@ public final class VelocityTeamChat implements TeamChatCommon<CommandSource> {
       this.configuration = new Configuration(
           node.node("prefix").getString(),
           node.node("permission").getString(),
+          node.node("aliases").getList(String.class),
           node.node("announce-in-console").getBoolean(),
           node.node("format").getString(),
           node.node("no-permission").getString(),
@@ -67,7 +68,7 @@ public final class VelocityTeamChat implements TeamChatCommon<CommandSource> {
 
     this.proxyServer.getCommandManager().register(this.proxyServer.getCommandManager()
             .metaBuilder("teamchat")
-            .aliases("tc")
+            .aliases(this.configuration.aliases().toArray(new String[0]))
             .plugin(this)
             .build(),
         new BrigadierCommand(BrigadierCommand.literalArgumentBuilder("teamchat")

@@ -22,6 +22,7 @@ public final class BungeeTeamChat extends Plugin implements TeamChatCommon<Comma
       this.configuration = new Configuration(
           config.getString("prefix"),
           config.getString("permission"),
+          config.getStringList("aliases"),
           config.getBoolean("announce-in-console"),
           config.getString("format"),
           config.getString("no-permission"),

@@ -27,6 +27,7 @@ public final class PaperTeamChat extends JavaPlugin implements TeamChatCommon<Co
     this.configuration = new Configuration(
         config.getString("prefix"),
         config.getString("permission"),
+        config.getStringList("aliases"),
         config.getBoolean("announce-in-console"),
         config.getString("format"),
         config.getString("no-permission"),

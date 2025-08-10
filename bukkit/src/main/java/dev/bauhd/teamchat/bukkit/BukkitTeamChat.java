@@ -2,7 +2,6 @@ package dev.bauhd.teamchat.bukkit;
 
 import dev.bauhd.teamchat.common.Configuration;
 import dev.bauhd.teamchat.common.TeamChatCommon;
-import java.util.Objects;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -12,6 +11,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,13 +32,17 @@ public final class BukkitTeamChat extends JavaPlugin implements TeamChatCommon<C
     this.configuration = new Configuration(
         config.getString("prefix"),
         config.getString("permission"),
+        config.getStringList("aliases"),
         config.getBoolean("announce-in-console"),
         config.getString("format"),
         config.getString("no-permission"),
         config.getString("usage")
     );
 
-    Objects.requireNonNull(this.getCommand("teamchat")).setExecutor(this);
+    final PluginCommand command = this.getCommand("teamchat");
+    assert command != null;
+    command.setExecutor(this);
+    command.setAliases(this.configuration.aliases());
 
     this.placeholderApi = this.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
   }

@@ -12,7 +12,8 @@ public final class TeamChatCommand extends Command {
   private final BungeeAudiences audiences;
 
   public TeamChatCommand(final BungeeTeamChat teamChat, final BungeeAudiences audiences) {
-    super("teamchat", teamChat.configuration().permission(), "tc");
+    super("teamchat", teamChat.configuration().permission(),
+        teamChat.configuration().aliases().toArray(new String[0]));
     this.teamChat = teamChat;
     this.audiences = audiences;
   }

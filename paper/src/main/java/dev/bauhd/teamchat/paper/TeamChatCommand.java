@@ -1,6 +1,5 @@
 package dev.bauhd.teamchat.paper;
 
-import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,7 +11,8 @@ public final class TeamChatCommand extends Command {
   private final PaperTeamChat teamChat;
 
   TeamChatCommand(final PaperTeamChat teamChat) {
-    super("teamchat", "The TeamChat command.", "/teamchat <Message>", List.of("tc"));
+    super("teamchat", "The TeamChat command.", "/teamchat <Message>",
+        teamChat.configuration().aliases());
     this.teamChat = teamChat;
   }
 
