@@ -9,3 +9,5 @@ commands:
   teamchat:
     description: "The TeamChat command."
     aliases: ["tc"]
+  team:
+    description: "A command to display your team."

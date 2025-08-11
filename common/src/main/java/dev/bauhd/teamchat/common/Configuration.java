@@ -19,6 +19,7 @@ public final class Configuration {
   private final String format;
   private final Component noPermission;
   private final Component usage;
+  private final String teamMessage;
 
   public Configuration(
       final String prefix,
@@ -27,7 +28,8 @@ public final class Configuration {
       final boolean announceInConsole,
       final String format,
       final String noPermission,
-      final String usage
+      final String usage,
+      final String teamMessage
   ) {
     this.prefix = MiniMessage.miniMessage().deserialize(prefix);
     this.permission = permission;
@@ -36,6 +38,7 @@ public final class Configuration {
     this.format = format;
     this.noPermission = this.prefix.append(MiniMessage.miniMessage().deserialize(noPermission));
     this.usage = this.prefix.append(MiniMessage.miniMessage().deserialize(usage));
+    this.teamMessage = teamMessage;
   }
 
   public Component prefix() {
@@ -64,6 +67,10 @@ public final class Configuration {
 
   public Component usage() {
     return this.usage;
+  }
+
+  public String teamMessage() {
+    return this.teamMessage;
   }
 
   public static Path ensurePathIsValid(final Path dataDirectory) {

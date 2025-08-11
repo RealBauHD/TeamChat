@@ -5,7 +5,3 @@ version: '2.1'
 api-version: '1.13'
 website: https://modrinth.com/project/teamchat
 softdepend: ["MiniPlaceholders", "PlaceholderAPI"]
-commands:
-  teamchat:
-    description: "The TeamChat command."
-    aliases: ["tc"]

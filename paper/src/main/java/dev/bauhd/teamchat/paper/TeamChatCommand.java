@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public final class TeamChatCommand extends Command {
+final class TeamChatCommand extends Command {
 
   private final PaperTeamChat teamChat;
 
@@ -18,7 +18,7 @@ public final class TeamChatCommand extends Command {
 
   @Override
   public boolean execute(
-      @NotNull CommandSender sender, @NotNull String s, @NotNull String[] arguments
+      @NotNull CommandSender sender, @NotNull String label, @NotNull String[] arguments
   ) {
     if (sender.hasPermission(this.teamChat.configuration().permission())) {
       if (arguments.length == 0) {

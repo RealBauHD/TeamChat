@@ -8,6 +8,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -31,10 +32,13 @@ public final class PaperTeamChat extends JavaPlugin implements TeamChatCommon<Co
         config.getBoolean("announce-in-console"),
         config.getString("format"),
         config.getString("no-permission"),
-        config.getString("usage")
+        config.getString("usage"),
+        config.getString("team-message")
     );
 
-    this.getServer().getCommandMap().register("teamchat", new TeamChatCommand(this));
+    final CommandMap commandMap = this.getServer().getCommandMap();
+    commandMap.register("teamchat", new TeamChatCommand(this));
+    commandMap.register("teamchat", new TeamCommand(this));
 
     final PluginManager pluginManager = this.getServer().getPluginManager();
     this.miniPlaceholders = pluginManager.isPluginEnabled("MiniPlaceholderAPI");

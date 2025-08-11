@@ -12,13 +12,18 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.proxy.ServerConnection;
+import com.velocitypowered.api.proxy.server.ServerInfo;
 import dev.bauhd.teamchat.common.Configuration;
 import dev.bauhd.teamchat.common.TeamChatCommon;
 import io.github.miniplaceholders.api.MiniPlaceholders;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.function.Predicate;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
@@ -60,11 +65,15 @@ public final class VelocityTeamChat implements TeamChatCommon<CommandSource> {
           node.node("announce-in-console").getBoolean(),
           node.node("format").getString(),
           node.node("no-permission").getString(),
-          node.node("usage").getString()
+          node.node("usage").getString(),
+          node.node("team-message").getString()
       );
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+
+    final Predicate<CommandSource> requirement =
+        source -> source.hasPermission(this.configuration.permission());
 
     this.proxyServer.getCommandManager().register(this.proxyServer.getCommandManager()
             .metaBuilder("teamchat")
@@ -72,7 +81,7 @@ public final class VelocityTeamChat implements TeamChatCommon<CommandSource> {
             .plugin(this)
             .build(),
         new BrigadierCommand(BrigadierCommand.literalArgumentBuilder("teamchat")
-            .requires(source -> source.hasPermission(this.configuration().permission()))
+            .requires(requirement)
             .executes(context -> {
               context.getSource().sendMessage(this.configuration().usage());
               return Command.SINGLE_SUCCESS;
@@ -96,6 +105,32 @@ public final class VelocityTeamChat implements TeamChatCommon<CommandSource> {
                   }
                   return Command.SINGLE_SUCCESS;
                 }))
+        ));
+
+    this.proxyServer.getCommandManager().register(this.proxyServer.getCommandManager()
+            .metaBuilder("team")
+            .plugin(this)
+            .build(),
+        new BrigadierCommand(BrigadierCommand.literalArgumentBuilder("team")
+            .requires(requirement)
+            .executes(context -> {
+              for (final Player player : this.proxyServer.getAllPlayers()) {
+                if (player.hasPermission(this.configuration.permission())) {
+                  final TagResolver.Builder tagResolverBuilder = TagResolver.builder()
+                      .resolver(Placeholder.unparsed("player", player.getUsername()))
+                      .resolver(Placeholder.unparsed("location", player.getCurrentServer()
+                          .map(ServerConnection::getServerInfo)
+                          .map(ServerInfo::getName)
+                          .orElse("Unknown")));
+                  this.addAdditionalResolver(player, player, tagResolverBuilder);
+                  context.getSource().sendMessage(this.configuration.prefix()
+                      .append(MiniMessage.miniMessage()
+                          .deserialize(this.configuration.teamMessage(),
+                              tagResolverBuilder.build())));
+                }
+              }
+              return Command.SINGLE_SUCCESS;
+            })
         ));
   }
 

@@ -6,12 +6,12 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
-public final class TeamChatCommand extends Command {
+final class TeamChatCommand extends Command {
 
   private final BungeeTeamChat teamChat;
   private final BungeeAudiences audiences;
 
-  public TeamChatCommand(final BungeeTeamChat teamChat, final BungeeAudiences audiences) {
+  TeamChatCommand(final BungeeTeamChat teamChat, final BungeeAudiences audiences) {
     super("teamchat", teamChat.configuration().permission(),
         teamChat.configuration().aliases().toArray(new String[0]));
     this.teamChat = teamChat;

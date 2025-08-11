@@ -9,3 +9,4 @@ announce-in-console: false
 format: "<yellow><sender></yellow> <dark_gray>»</dark_gray> <gray><message></gray>"
 no-permission: "<red>You do not have the permission to use this command!</red>"
 usage: "<red>Usage: /teamchat <Message></red>"
+team-message: "<yellow><player></yellow> <dark_gray>-</dark_gray> <gray><location></gray>"
