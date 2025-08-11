@@ -1,7 +1,7 @@
 name: TeamChat
 author: BauHD
 main: dev.bauhd.teamchat.bukkit.BukkitTeamChat
-version: '2.1'
+version: '2.2'
 api-version: '1.13'
 website: https://modrinth.com/project/teamchat
 softdepend: ["PlaceholderAPI"]

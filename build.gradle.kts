@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "dev.bauhd"
-version = "2.1-SNAPSHOT"
+version = "2.2-SNAPSHOT"
 
 allprojects {
     apply(plugin = "java")
