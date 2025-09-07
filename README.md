@@ -12,7 +12,7 @@ A plugin that provides a separate chat for the server team.
 ## Default configuration
 
 ```
-# TeamChat plugin v2.2 by BauHD
+# TeamChat plugin v2.3 by BauHD
 # Modrinth: https://modrinth.com/project/teamchat
 # Discord: https://discord.gg/Gmxwzz2rA9
 prefix: "<dark_gray>[<gradient:blue:aqua>TeamChat</gradient>]</dark_gray> "
