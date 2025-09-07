@@ -11,5 +11,5 @@ dependencies {
 
     compileOnly(libs.miniplaceholders)
     compileOnly(libs.placeholderapi)
-    compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
 }

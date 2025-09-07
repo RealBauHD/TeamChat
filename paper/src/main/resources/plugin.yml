@@ -1,7 +1,0 @@
-name: TeamChat
-author: BauHD
-main: dev.bauhd.teamchat.paper.PaperTeamChat
-version: '2.2'
-api-version: '1.13'
-website: https://modrinth.com/project/teamchat
-softdepend: ["MiniPlaceholders", "PlaceholderAPI"]

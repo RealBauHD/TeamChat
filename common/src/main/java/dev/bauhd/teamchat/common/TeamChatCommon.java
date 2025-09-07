@@ -16,13 +16,13 @@ public interface TeamChatCommon<S> {
     final TagResolver.Builder tagResolverBuilder = TagResolver.builder()
         .resolver(Placeholder.unparsed("sender", senderName))
         .resolver(Placeholder.unparsed("message", message));
-    this.addAdditionalResolver(sender, audience, tagResolverBuilder);
+    this.addAdditionalResolver(sender, tagResolverBuilder);
     return MiniMessage.miniMessage().deserialize(
-        this.configuration().format(), tagResolverBuilder.build());
+        this.configuration().format(), audience, tagResolverBuilder.build());
   }
 
   default void addAdditionalResolver(
-      final S sender, final Audience audience, final TagResolver.Builder builder
+      final S sender, final TagResolver.Builder builder
   ) {
   }
 }

@@ -12,15 +12,12 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
-import com.velocitypowered.api.proxy.ServerConnection;
-import com.velocitypowered.api.proxy.server.ServerInfo;
 import dev.bauhd.teamchat.common.Configuration;
 import dev.bauhd.teamchat.common.TeamChatCommon;
 import io.github.miniplaceholders.api.MiniPlaceholders;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.function.Predicate;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -119,13 +116,12 @@ public final class VelocityTeamChat implements TeamChatCommon<CommandSource> {
                   final TagResolver.Builder tagResolverBuilder = TagResolver.builder()
                       .resolver(Placeholder.unparsed("player", player.getUsername()))
                       .resolver(Placeholder.unparsed("location", player.getCurrentServer()
-                          .map(ServerConnection::getServerInfo)
-                          .map(ServerInfo::getName)
+                          .map(connection -> connection.getServerInfo().getName())
                           .orElse("Unknown")));
-                  this.addAdditionalResolver(player, player, tagResolverBuilder);
+                  this.addAdditionalResolver(player, tagResolverBuilder);
                   context.getSource().sendMessage(this.configuration.prefix()
                       .append(MiniMessage.miniMessage()
-                          .deserialize(this.configuration.teamMessage(),
+                          .deserialize(this.configuration.teamMessage(), player,
                               tagResolverBuilder.build())));
                 }
               }
@@ -141,10 +137,10 @@ public final class VelocityTeamChat implements TeamChatCommon<CommandSource> {
 
   @Override
   public void addAdditionalResolver(
-      CommandSource sender, Audience audience, TagResolver.Builder builder
+      CommandSource sender, TagResolver.Builder builder
   ) {
     if (this.miniPlaceholders) {
-      builder.resolver(MiniPlaceholders.getAudiencePlaceholders(audience));
+      builder.resolver(MiniPlaceholders.audienceGlobalPlaceholders());
     }
   }
 }

@@ -30,11 +30,11 @@ final class TeamCommand implements CommandExecutor {
           final TagResolver.Builder tagResolverBuilder = TagResolver.builder()
               .resolver(Placeholder.unparsed("player", player.getName()))
               .resolver(Placeholder.unparsed("location", player.getWorld().getName()));
-          this.teamChat.addAdditionalResolver(player, this.teamChat.audiences().player(player),
-              tagResolverBuilder);
+          this.teamChat.addAdditionalResolver(player, tagResolverBuilder);
           audience.sendMessage(this.teamChat.configuration().prefix()
               .append(MiniMessage.miniMessage().deserialize(
-                  this.teamChat.configuration().teamMessage(), tagResolverBuilder.build())));
+                  this.teamChat.configuration().teamMessage(),
+                  this.teamChat.audiences().player(player), tagResolverBuilder.build())));
         }
       }
     }

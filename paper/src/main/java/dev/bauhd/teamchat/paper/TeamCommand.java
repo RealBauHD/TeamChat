@@ -28,10 +28,11 @@ final class TeamCommand extends Command {
           final TagResolver.Builder tagResolverBuilder = TagResolver.builder()
               .resolver(Placeholder.unparsed("player", player.getName()))
               .resolver(Placeholder.unparsed("location", player.getWorld().getName()));
-          this.teamChat.addAdditionalResolver(player, player, tagResolverBuilder);
+          this.teamChat.addAdditionalResolver(player, tagResolverBuilder);
           sender.sendMessage(this.teamChat.configuration().prefix()
               .append(MiniMessage.miniMessage().deserialize(
-                  this.teamChat.configuration().teamMessage(), tagResolverBuilder.build())));
+                  this.teamChat.configuration().teamMessage(), player,
+                  tagResolverBuilder.build())));
         }
       }
     }

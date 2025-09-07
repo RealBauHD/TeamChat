@@ -3,7 +3,6 @@ package dev.bauhd.teamchat.bukkit;
 import dev.bauhd.teamchat.common.Configuration;
 import dev.bauhd.teamchat.common.TeamChatCommon;
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
@@ -53,7 +52,7 @@ public final class BukkitTeamChat extends JavaPlugin implements TeamChatCommon<C
 
   @Override
   public void addAdditionalResolver(
-      CommandSender sender, Audience audience, TagResolver.Builder builder
+      CommandSender sender, TagResolver.Builder builder
   ) {
     if (this.placeholderApi && sender instanceof Player player) {
       builder.resolver(TagResolver.resolver("papi", (argument, context) -> {

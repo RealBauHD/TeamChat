@@ -4,7 +4,6 @@ import dev.bauhd.teamchat.common.Configuration;
 import dev.bauhd.teamchat.common.TeamChatCommon;
 import io.github.miniplaceholders.api.MiniPlaceholders;
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -52,10 +51,10 @@ public final class PaperTeamChat extends JavaPlugin implements TeamChatCommon<Co
 
   @Override
   public void addAdditionalResolver(
-      CommandSender sender, Audience audience, TagResolver.Builder builder
+      CommandSender sender, TagResolver.Builder builder
   ) {
     if (this.miniPlaceholders) {
-      builder.resolver(MiniPlaceholders.getAudiencePlaceholders(audience));
+      builder.resolver(MiniPlaceholders.audienceGlobalPlaceholders());
     }
     if (this.placeholderApi && sender instanceof Player player) {
       builder.resolver(TagResolver.resolver("papi", (argument, context) -> {
